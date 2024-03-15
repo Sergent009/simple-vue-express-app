@@ -1,6 +1,13 @@
 <template>
   
 <div class="container">
+  <div class="togglebutton">
+  <label class="switch">
+    <input type="checkbox">
+    <span class="slider"></span>
+  </label>
+  </div>
+
   <h1>Creat Post || Delete Post || Read Post</h1>
   <!-- create post here -->
   <div class="create-">
@@ -148,6 +155,41 @@ button:hover{
 .deleteButton:hover{
   background: rgb(196, 37, 37);
   color: white;
+}
+
+.togglebutton{
+  border: 2px solid;
+  width: 80px;
+  height: 40px;
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.switch{
+  width: 80px;
+  height: 40px;
+  background: black;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.switch input{
+  display: none;
+}
+
+.slider{
+  width: 35px;
+  height: 35px;
+  background-color: grey;
+  border-radius: 50%;
+  margin: 5px;
+  position: absolute;
 }
 
 </style>
