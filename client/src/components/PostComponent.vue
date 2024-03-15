@@ -1,17 +1,17 @@
 <template>
   
 <div class="container">
-  <h1>Latest Posts</h1>
+  <h1>Creat Post || Delete Post || Read Post</h1>
   <!-- create post here -->
   <div class="create-">
-    <label for="create-post">Say Something...</label>
-    <input type="text" id="create-post" v-model="text" placeholder="Create A Post">
+    <input type="text" id="create-post" v-model="text" placeholder="Create A Post ...">
     <button @click="createPost">Post</button>
   </div>
   <hr>
   <p class="error" v-if="error">{{error}}</p>
   <div class="posts-container">
-    <div class="post" v-for="(post, index) in posts"  v-bind:item="post" v-bind:index="index" v-bind:key="post._id" @dblclick="deletePost(post._id)">
+    <div class="post" v-for="(post, index) in posts"  v-bind:item="post" v-bind:index="index" v-bind:key="post._id">
+      <button class="deleteButton" @click="deletePost(post._id)">x</button>
       {{`${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}`}}
       <p class="">{{post.text}}</p>
     </div>
@@ -47,6 +47,7 @@ export default {
     async createPost(){
       await PostService.insertPost(this.text)
       this.posts = await PostService.getPosts()
+      this.text = ''
     },
 
     async deletePost(id){
@@ -59,10 +60,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
 .container{
   max-width: 800px;
   margin: 0 auto;
+  font-family: "Varela Round", sans-serif;
+
 }
 
 .error{
@@ -70,6 +74,8 @@ export default {
   background-color: #ffc5c1;
   padding: 10px;
   margin-bottom: 15px;
+  font-family: "Varela Round", sans-serif;
+
 }
 
 .post{
@@ -78,6 +84,7 @@ export default {
   background-color: #bcffb8;
   padding: 10px 10px 30px 10px;
   margin-bottom: 15px;
+  border-radius: 4px;
 }
 
 .created-at{
@@ -94,6 +101,53 @@ export default {
   font-size: 22px;
   font-weight: 700;
   margin-bottom: 0;
+}
+
+#create-post{
+  width: 60%;
+  height: 35px;
+  border: none;
+  background: rgb(158, 163, 158);
+  color: black;
+  font-weight: 600;
+  border-radius: 3px;
+  font-size: 16px;
+  font-family: "Varela Round", sans-serif;
+
+}
+#create-post:focus{
+  outline: none;
+}
+
+button{
+  width: 100px;
+  height: 35px;
+  margin: 0 10px;
+  font-weight: 600;
+  font-size: 16px;
+  background: rgb(158, 163, 158);
+  border: none;
+  border-radius: 3px;
+  color: wheat;
+}
+
+button:hover{
+  background: rgb(209, 188, 149);
+  color: rgb(158, 163, 158);
+  cursor: pointer;
+}
+
+.deleteButton{
+  position: absolute;
+  top: 10px;
+  right: 0;
+  width: 30px;
+  height: 30px;
+}
+
+.deleteButton:hover{
+  background: rgb(196, 37, 37);
+  color: white;
 }
 
 </style>
