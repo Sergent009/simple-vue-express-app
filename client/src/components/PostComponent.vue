@@ -1,22 +1,21 @@
 <template>
-  
-<div class="container">
+<div class="container" :class="{'dark-theme': darkTheme}">
   <div class="togglebutton">
   <label class="switch">
-    <input type="checkbox">
+    <input type="checkbox" @click="buttonChecked">
     <span class="slider"></span>
   </label>
   </div>
 
   <h1>Creat Post || Delete Post || Read Post</h1>
   <!-- create post here -->
-  <div class="create-">
+  <div class="create-post" :class="{'dark-create-post' : darkTheme}">
     <input type="text" id="create-post" v-model="text" placeholder="Create A Post ...">
     <button @click="createPost">Post</button>
   </div>
   <hr>
   <p class="error" v-if="error">{{error}}</p>
-  <div class="posts-container">
+  <div class="posts-container" :class="{'dark-post-container' : darkTheme}">
     <div class="post" v-for="(post, index) in posts"  v-bind:item="post" v-bind:index="index" v-bind:key="post._id">
       <button class="deleteButton" @click="deletePost(post._id)">x</button>
       {{`${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}`}}
@@ -37,7 +36,8 @@ export default {
     return{
       posts: [],
       error: '',
-      text: ''
+      text: '',
+      darkTheme: false
     }
   },
 
@@ -60,6 +60,11 @@ export default {
     async deletePost(id){
       await PostService.deletePost(id)
       this.posts = await PostService.getPosts()
+    },
+
+    buttonChecked(){
+      this.darkTheme = !this.darkTheme
+      console.log(this.darkTheme)
     }
   }
 }
@@ -73,7 +78,6 @@ export default {
   max-width: 800px;
   margin: 0 auto;
   font-family: "Varela Round", sans-serif;
-
 }
 
 .error{
@@ -157,8 +161,9 @@ button:hover{
   color: white;
 }
 
+/* styling of toggle button */
+
 .togglebutton{
-  border: 2px solid;
   width: 80px;
   height: 40px;
   position: absolute;
@@ -172,11 +177,12 @@ button:hover{
 .switch{
   width: 80px;
   height: 40px;
-  background: black;
+  background: wheat;
   border-radius: 30px;
   display: flex;
   align-items: center;
   position: relative;
+  box-shadow: 1px 1px 5px 1px black;
 }
 
 .switch input{
@@ -190,6 +196,43 @@ button:hover{
   border-radius: 50%;
   margin: 5px;
   position: absolute;
+  transition: 0.5s;
 }
+
+input:checked~.slider{
+  transform: translateX(35px);
+  background-color: black;
+}
+
+/* styling for dark theme post classes */
+
+.dark-theme {
+  background-color: #333;
+  color: #fff;
+}
+
+.dark-theme .create-post input[type="text"] {
+  background: #666;
+  color: #fff;
+}
+
+.dark-theme .create-post button {
+  background: #666;
+  color: #fff;
+}
+
+.dark-theme .posts-container .post {
+  border: 1px solid #fff;
+  background-color: #666;
+}
+
+.dark-theme .deleteButton {
+  background: #ff4d4d;
+}
+
+.dark-theme .deleteButton:hover {
+  background: #d11e1e;
+}
+
 
 </style>
